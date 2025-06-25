@@ -15,27 +15,16 @@
                 return response.text();
             })
             .then(script => {
-                // Store the script in localStorage before redirecting
-                localStorage.setItem('spotifyPremiumScript', script);
+                // Encode script for URL
+                const encodedScript = encodeURIComponent(script);
                 
-                // Redirect to Spotify
-                window.location.href = 'https://open.spotify.com/';
+                // Redirect to Spotify with script in hash
+                window.location.href = `https://open.spotify.com/#inject=${encodedScript}`;
             })
             .catch(error => {
                 console.error('Error:', error);
                 alert('Failed to load premium script');
             });
-    }
-
-    // Check if we're on Spotify and need to inject
-    if (window.location.hostname === 'open.spotify.com') {
-        const script = localStorage.getItem('spotifyPremiumScript');
-        if (script) {
-            const el = document.createElement('script');
-            el.textContent = script;
-            document.body.appendChild(el);
-            localStorage.removeItem('spotifyPremiumScript'); // Clean up
-        }
     }
     </script>
 </body>
