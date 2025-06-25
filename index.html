@@ -11,21 +11,31 @@
     function injectScript() {
         fetch('https://raw.githubusercontent.com/ARAbdulla-Dev2/spoofSpoty/main/mobScript.js')
             .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
+                if (!response.ok) throw new Error('Network error');
                 return response.text();
             })
             .then(script => {
-                const el = document.createElement('script');
-                el.textContent = script;
-                document.body.appendChild(el);
-                alert('Spotify Premium features activated!');
+                // Store the script in localStorage before redirecting
+                localStorage.setItem('spotifyPremiumScript', script);
+                
+                // Redirect to Spotify
+                window.location.href = 'https://open.spotify.com/';
             })
             .catch(error => {
-                console.error('Error loading script:', error);
-                alert('Failed to activate Premium. Please try again later.');
+                console.error('Error:', error);
+                alert('Failed to load premium script');
             });
+    }
+
+    // Check if we're on Spotify and need to inject
+    if (window.location.hostname === 'open.spotify.com') {
+        const script = localStorage.getItem('spotifyPremiumScript');
+        if (script) {
+            const el = document.createElement('script');
+            el.textContent = script;
+            document.body.appendChild(el);
+            localStorage.removeItem('spotifyPremiumScript'); // Clean up
+        }
     }
     </script>
 </body>
